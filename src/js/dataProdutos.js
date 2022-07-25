@@ -1,4 +1,4 @@
-const produtos = [
+const PRODUTOS = [
     {
         nome: 'Banana',
         preco: 2,

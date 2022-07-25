@@ -4,49 +4,48 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/css/reset.css" />
-    <link rel="stylesheet" href="./src/css/style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fontawesome.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"/>
+    <link rel="icon" href="https://svgsilh.com/svg/304843.svg">
+    <link rel="stylesheet" href="./src/css/style.css" />
+    <script defer src="src/js/dataProdutos.js"></script>
+    <script defer src="./src/js/script.js"></script>
     <title>Lista de Produtos</title>
   </head>
   <body>
     <!-- CABEÇALHO -->
     <header>
-      <h1>Shop now</h1>
+      <div class="header">
+        <img src="./src/img/LOGO.png" alt="logo carrinho">
+        <h1>Shop now</h1>
+      </div>
     </header>
     <!-- PARTE PRINCIPAL -->
     <main>
       <section class="filtersContainer">
         <div id="botoesContainer">
-          <button class="estiloGeralBotoes estiloGeralBotoes--filter">
-            Todos Produtos
+          <button 
+            class="estiloGeralBotoes estiloGeralBotoes--filter"
+            id="todos">Todos Produtos
           </button>
-          <button class="estiloGeralBotoes estiloGeralBotoes--filter">
-            Hortifruti
+          <button
+            class="estiloGeralBotoes estiloGeralBotoes--filter"
+            id="hortifruti">Hortifruti
           </button>
-          <button class="estiloGeralBotoes estiloGeralBotoes--filter">
-            Panificadora
+          <button
+            class="estiloGeralBotoes estiloGeralBotoes--filter"
+            id="panificadora">Panificadora
           </button>
-          <button class="estiloGeralBotoes estiloGeralBotoes--filter">
-            Laticínios
+          <button
+            class="estiloGeralBotoes estiloGeralBotoes--filter"
+            id="laticinios">Laticínios
           </button>
         </div>
-
         <div class="containerBuscaPorNome">
-          <input
-            type="text"
-            placeholder="Pesquisar por"
-            class="campoBuscaPorNome"
-          />
-          <button
-            class="estiloGeralBotoes estiloGeralBotoes--botaoBuscaPorNome"
-          >
+          <input type="text" placeholder="Pesquisar por" class="campoBuscaPorNome" id="searchInput"/>
+          <button class="estiloGeralBotoes estiloGeralBotoes--botaoBuscaPorNome" id="pesquisar">
             <img src="./src/img/search.png" alt="lupa" />
           </button>
         </div>
@@ -56,29 +55,15 @@
             <img src="./src/img/alert-circle.png" alt="exclamação de alerta">
             <p>Valor total dos produtos da sessão selecionada</p>
         </div>
-        <span>R$ 0.00</span>
+        <span id="totalPreco"></span>
       </section>
       <!-- CONTAINER DE PRODUTOS -->
       <section class="containerVitrine">
         <div class="containerListaProdutos">
-         <ul>
-                    <!-- Utilize esse item html como template para a construção da lista de produtos
-                    
-                    Você pode remover esses comentários depois que fizer a construção pelo DOM -->
-                    
-            
-                    <!-- <li>
-                        <img src="./src/img/maça.png" alt="Imagem maçã">
-                        <h3>Maçã</h3>
-                        <span>Hortifruti</span>
-                        <p>R$ 2.00</p>
-                    </li> -->
-                    
-                </ul>
+          <ul class="listaProdutos" id="listaProdutos"></ul>
         </div>
       </section>
     </main>
-    <script src="src/js/dataProdutos.js"></script>
-    <script src="./scriptDemo.js"></script>
+
   </body>
 </html>
