@@ -13,11 +13,10 @@ let listaLaticinios = []
 let listaTodos = []
 
 const listarProdutos = (listaProdutos, secao) => {
-    for (let i in listaProdutos) {
-        const produto = listaProdutos[i]
+    listaProdutos.forEach((produto) => {
         const templateProduto = criarCardProduto(produto)
         secao.append(templateProduto)
-    }
+    })
 }
 
 const criarCardProduto = (produto) => {
@@ -58,7 +57,6 @@ const filtrarCategoria = (event) => {
         PRODUTOS.forEach((produto) => listaTodos.push(produto))
         renderizarProdutos(PRODUTOS, lista_produtos)
     }
-
     totalPagar()
 }
 
@@ -90,13 +88,18 @@ const pesquisaPorProduto = () => {
     }
 }
 
+let arrAtual = []
+
 const percorrerLista = (listaProdutos) => {
     lista_produtos.innerHTML = ""
     const texto = searchInput.value.trim().toLowerCase()
     let qtdProdutosEncontrados = 0
-    listaProdutos.forEach((i) => {
-        if (i.nome.toLowerCase().includes(texto)) {
-            lista_produtos.append(criarCardProduto(i))
+    arrAtual = []
+    listaProdutos.forEach((produto) => {
+        if (produto.nome.toLowerCase().includes(texto)) {
+            arrAtual.push(produto)
+            totalPagarPorSecao(arrAtual)
+            lista_produtos.append(criarCardProduto(produto))
             qtdProdutosEncontrados++
         }
     })
@@ -107,6 +110,7 @@ const percorrerLista = (listaProdutos) => {
                 <img src="https://sambatech.com/wp-content/uploads/2019/07/animac%CC%A7a%CC%83o-erro404_3-1.gif" alt="Gif">
             </div>
         `
+        totalPreco.innerText = `Nenhum produto`
     }
 }
 
@@ -123,16 +127,9 @@ const totalPagar = () => {
 }
 
 const totalPagarPorSecao = (listaProdutos) => {
-    let total = 0
-    listaProdutos.forEach((produto) => {
-        const preco = produto.preco
-        total += preco
-    })
+    const total = listaProdutos.map((produto, indice) => produto.preco).reduce((acc, cur) => acc + cur)
     totalPreco.innerText = `R$ ${total.toFixed(2)}`
 }
-
-let listaTOTAL = PRODUTOS.map((produto, indice) => produto.preco).reduce((acc, cur) => acc + cur)
-totalPreco.innerText = `R$ ${listaTOTAL.toFixed(2)}`
 
 pesquisar.addEventListener("click", pesquisaPorProduto)
 todos.addEventListener("click", filtrarCategoria)
@@ -140,4 +137,5 @@ hortifruti.addEventListener("click", filtrarCategoria)
 panificadora.addEventListener("click", filtrarCategoria)
 laticinios.addEventListener("click", filtrarCategoria)
 
+totalPagarPorSecao(PRODUTOS)
 listarProdutos(PRODUTOS, lista_produtos)
