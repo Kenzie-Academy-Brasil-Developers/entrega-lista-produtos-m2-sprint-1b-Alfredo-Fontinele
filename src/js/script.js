@@ -5,12 +5,7 @@ const totalPreco = document.getElementById("totalPreco")
 const todos = document.getElementById("todos")
 const hortifruti = document.getElementById("hortifruti")
 const panificadora = document.getElementById("panificadora")
-const laticinios = document.getElementById("laticinios")
-
-let listaHortifruti = []
-let listaPanificadora = []
-let listaLaticinios = []
-let listaTodos = []
+const laticinio = document.getElementById("laticinio")
 
 const listarProdutos = (listaProdutos, secao) => {
     listaProdutos.forEach((produto) => {
@@ -30,79 +25,70 @@ const criarCardProduto = (produto) => {
     return li
 }
 
+let secao_atual = "todos"
+
 const filtrarCategoria = (event) => {
     const localEvento = event.target
+    const localId = localEvento.id
+
+    secao_atual = localId
+
+    let arrayProdutos = []
     lista_produtos.innerHTML = ""
-    lista_produtos.id = ""
 
-    listaHortifruti = []
-    listaPanificadora = []
-    listaLaticinios = []
-    listaTodos = []
-
-    if (localEvento.id == "hortifruti") {
-        lista_produtos.id = "hortifruti"
-        percorrerListaCategoria(PRODUTOS, listaHortifruti, "Hortifruti")
-        renderizarProdutos(listaHortifruti, lista_produtos)
-    } else if (localEvento.id == "panificadora") {
-        lista_produtos.id = "panificadora"
-        percorrerListaCategoria(PRODUTOS, listaPanificadora, "Panificadora")
-        renderizarProdutos(listaPanificadora, lista_produtos)
-    } else if (localEvento.id == "laticinios") {
-        lista_produtos.id = "laticinios"
-        percorrerListaCategoria(PRODUTOS, listaLaticinios, "Laticínio")
-        renderizarProdutos(listaLaticinios, lista_produtos)
-    } else if (localEvento.id == "todos") {
-        lista_produtos.id = "todos"
-        PRODUTOS.forEach((produto) => listaTodos.push(produto))
+    if (localId == "todos") {
         renderizarProdutos(PRODUTOS, lista_produtos)
+    } else {
+        PRODUTOS.forEach((produto) => {
+            const secao = produto.secao.toLowerCase()
+            if (secao == localId) {
+                arrayProdutos.push(produto)
+            }
+        })
+        renderizarProdutos(arrayProdutos, lista_produtos)
     }
-    totalPagar()
-}
-
-const percorrerListaCategoria = (listaSecao, secao, nomeSecao) => {
-    listaSecao.filter((produto) => {
-        if (produto.secao == nomeSecao) {
-            secao.push(produto)
-        }
-    })
+    totalPagarPorSecao(PRODUTOS, secao_atual)
 }
 
 const renderizarProdutos = (array, secao) => {
-    array.forEach((i) => secao.append(criarCardProduto(i)))
+    array.forEach((produto) => {
+        const produtoTemplate = criarCardProduto(produto)
+        secao.append(produtoTemplate)
+    })
 }
 
-const pesquisaPorProduto = () => {
-    if (lista_produtos.id == "hortifruti") {
-        lista_produtos.id = "hortifruti"
-        percorrerLista(listaHortifruti)
-    } else if (lista_produtos.id == "panificadora") {
-        lista_produtos.id = "panificadora"
-        percorrerLista(listaPanificadora)
-    } else if (lista_produtos.id == "laticinios") {
-        lista_produtos.id = "laticinios"
-        percorrerLista(listaLaticinios)
-    } else {
-        lista_produtos.id = "todos"
-        percorrerLista(PRODUTOS)
-    }
-}
-
-let arrAtual = []
-
-const percorrerLista = (listaProdutos) => {
+const percorrerLista = (listaProdutos, secao_atual) => {
     lista_produtos.innerHTML = ""
     const texto = searchInput.value.trim().toLowerCase()
     let qtdProdutosEncontrados = 0
-    arrAtual = []
-    listaProdutos.forEach((produto) => {
-        if (produto.nome.toLowerCase().includes(texto)) {
-            arrAtual.push(produto)
-            totalPagarPorSecao(arrAtual)
-            lista_produtos.append(criarCardProduto(produto))
-            qtdProdutosEncontrados++
-        }
-    })
+
+    let arrAtual = []
+
+    if (secao_atual == "todos") {
+        listaProdutos.forEach((produto) => {
+            const nome = produto.nome.toLowerCase()
+            if (nome.includes(texto)) {
+                arrAtual.push(produto)
+                totalPagarPorSecao(arrAtual, secao_atual)
+                lista_produtos.append(criarCardProduto(produto))
+                qtdProdutosEncontrados++
+            }
+        })
+    } else {
+        listaProdutos.filter((produto) => {
+            const secao = produto.secao.toLowerCase()
+            if (secao == secao_atual) {
+                const nome = produto.nome.toLowerCase()
+                if (nome.includes(texto)) {
+                    arrAtual.push(produto)
+                    totalPagarPorSecao(arrAtual, secao_atual)
+                    lista_produtos.append(criarCardProduto(produto))
+                    qtdProdutosEncontrados++
+                }
+            }
+        })
+    }
+
     if (qtdProdutosEncontrados === 0) {
         lista_produtos.innerHTML = `
             <div id='resultadoPesquisa'>
@@ -114,28 +100,32 @@ const percorrerLista = (listaProdutos) => {
     }
 }
 
-const totalPagar = () => {
-    if (lista_produtos.id == "hortifruti") {
-        totalPagarPorSecao(listaHortifruti)
-    } else if (lista_produtos.id == "panificadora") {
-        totalPagarPorSecao(listaPanificadora)
-    } else if (lista_produtos.id == "laticinios") {
-        totalPagarPorSecao(listaLaticinios)
-    } else if (lista_produtos.id == "todos") {
-        totalPagarPorSecao(listaTodos)
-    }
+const pesquisaPorProduto = () => {
+    percorrerLista(PRODUTOS, secao_atual)
 }
 
-const totalPagarPorSecao = (listaProdutos) => {
-    const total = listaProdutos.map((produto, indice) => produto.preco).reduce((acc, cur) => acc + cur)
-    totalPreco.innerText = `R$ ${total.toFixed(2)}`
+const totalPagarPorSecao = (PRODUTOS, secaoAtual) => {
+    if (secaoAtual == "todos") {
+        const total = PRODUTOS.map((produto) => produto.preco).reduce((acc, cur) => acc + cur)
+        totalPreco.innerText = `R$ ${total.toFixed(2)}`
+    } else {
+        let result = 0
+        const total = PRODUTOS.forEach((produto) => {
+            const preco = produto.preco
+            const secao = produto.secao.toLowerCase()
+            if (secao == secaoAtual) {
+                result += preco
+            }
+        })
+        totalPreco.innerText = `R$ ${result.toFixed(2)}`
+    }
 }
 
 pesquisar.addEventListener("click", pesquisaPorProduto)
 todos.addEventListener("click", filtrarCategoria)
 hortifruti.addEventListener("click", filtrarCategoria)
 panificadora.addEventListener("click", filtrarCategoria)
-laticinios.addEventListener("click", filtrarCategoria)
+laticinio.addEventListener("click", filtrarCategoria)
 
-totalPagarPorSecao(PRODUTOS)
+totalPagarPorSecao(PRODUTOS, secao_atual)
 listarProdutos(PRODUTOS, lista_produtos)

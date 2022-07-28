@@ -30,7 +30,7 @@ const PRODUTOS = [
     {
         nome: 'Leite',
         preco: 5,
-        secao: 'Laticínio',
+        secao: 'Laticinio',
         categoria: 'Leite',
         img: './src/img/leite.png'
     }
