@@ -91,6 +91,22 @@ const percorrerLista = (listaProdutos, secao_atual) => {
     let qtdProdutosEncontrados = 0
 
     let arrAtual = []
+    
+    if (texto == "todos") {
+        secao_atual = texto
+        listarProdutos(PRODUTOS, lista_produtos)
+        qtdProdutosEncontrados = PRODUTOS.length
+    } else {
+        listaProdutos.forEach((produto) => {
+            const secao = produto.secao.toLowerCase()
+            if (texto === secao) {
+                secao_atual = texto
+                arrAtual.push(produto)
+                qtdProdutosEncontrados++
+            }
+        })
+        listarProdutos(arrAtual, lista_produtos)
+    }
 
     if (secao_atual == "todos") {
         listaProdutos.forEach((produto) => {
@@ -105,7 +121,7 @@ const percorrerLista = (listaProdutos, secao_atual) => {
     } else {
         listaProdutos.forEach((produto) => {
             const secao = produto.secao.toLowerCase()
-            if (secao == secao_atual) {
+            if (secao == texto || secao == secao_atual) {
                 const nome = produto.nome.toLowerCase()
                 if (nome.includes(texto)) {
                     arrAtual.push(produto)
@@ -116,6 +132,7 @@ const percorrerLista = (listaProdutos, secao_atual) => {
             }
         })
     }
+
     if (qtdProdutosEncontrados === 0) {
         lista_produtos.innerHTML = `
             <div id='resultadoPesquisa'>
@@ -125,6 +142,8 @@ const percorrerLista = (listaProdutos, secao_atual) => {
         `
         totalPreco.innerText = `Nenhum produto`
     }
+
+    totalPagarPorSecao(PRODUTOS, secao_atual)
 }
 
 const totalPagarPorSecao = (PRODUTOS, secaoAtual) => {
