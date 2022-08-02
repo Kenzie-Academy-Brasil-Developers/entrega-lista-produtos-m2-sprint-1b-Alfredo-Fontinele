@@ -469,7 +469,7 @@ main {
     }
 
     .containerListaProdutos .listaProdutos {
-        min-height: 300px;
+        min-height: 350px;
         width: 100%;
         flex-wrap: nowrap;
         overflow-x: auto;

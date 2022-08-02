@@ -146,11 +146,11 @@ const totalPagarPorSecao = (PRODUTOS, secaoAtual) => {
 
 const quantidadeProdutos = (array) => quantidade_total.innerHTML = array.length
 
-const interceptarProduto = (event) => {
+const adicionarProduto = (event) => {
     const localEvento = event.target
     const idLocalEvento = localEvento.id
     if (localEvento.tagName == "BUTTON") {
-        PRODUTOS.find( ({id, secao, nome, img, preco}) => {
+        PRODUTOS.find(({id, secao, nome, img, preco}) => {
             if (id == idLocalEvento) {
                 const obj = {
                     id: id,
@@ -163,7 +163,6 @@ const interceptarProduto = (event) => {
                 criarCardsCarrinho(produtosCarrinho)
                 quantidadeProdutos(produtosCarrinho)
                 somarProdutos(produtosCarrinho)
-
                 if (produtosCarrinho.length >= 1) {
                     total_compra.style.display = "flex"
                     carrinho_vazio.style.display = "none"
@@ -226,7 +225,7 @@ hortifruti.addEventListener("click", filtrarCategoria)
 panificadora.addEventListener("click", filtrarCategoria)
 laticinio.addEventListener("click", filtrarCategoria)
 
-listaProdutos.addEventListener("click", interceptarProduto)
+listaProdutos.addEventListener("click", adicionarProduto)
 listaCompras.addEventListener("click", removerProduto)
 
 totalPagarPorSecao(PRODUTOS, secao_atual)
