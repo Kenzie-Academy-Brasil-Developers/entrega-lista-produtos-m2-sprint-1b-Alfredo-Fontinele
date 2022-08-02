@@ -103,7 +103,7 @@ const percorrerLista = (listaProdutos, secao_atual) => {
             }
         })
     } else {
-        listaProdutos.filter((produto) => {
+        listaProdutos.forEach((produto) => {
             const secao = produto.secao.toLowerCase()
             if (secao == secao_atual) {
                 const nome = produto.nome.toLowerCase()
@@ -132,21 +132,16 @@ const totalPagarPorSecao = (PRODUTOS, secaoAtual) => {
         const total = PRODUTOS.reduce((acc, {preco}) => acc + preco, 0)
         totalPreco.innerText = `R$ ${total.toFixed(2)}`
     } else {
-        let result = 0
-        const total = PRODUTOS.forEach((produto) => {
-            const preco = produto.preco
-            const secao = produto.secao.toLowerCase()
-            if (secao == secaoAtual) {
-                result += preco
-            }
-        })
-        totalPreco.innerText = `R$ ${result.toFixed(2)}`
+        const secao = PRODUTOS
+            .filter(({secao}) => secao.toLowerCase() == secaoAtual)
+            .reduce((acc, {preco}) => acc + preco, 0)
+        totalPreco.innerText = `R$ ${secao.toFixed(2)}`
     }
 }
 
-const quantidadeProdutos = (array) => quantidade_total.innerHTML = array.length
+const quantidadeProdutos = array => quantidade_total.innerHTML = array.length
 
-const adicionarProduto = (event) => {
+const adicionarProduto = event => {
     const localEvento = event.target
     const idLocalEvento = localEvento.id
     if (localEvento.tagName == "BUTTON") {

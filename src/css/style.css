@@ -215,6 +215,7 @@ main {
     overflow-x: auto;
     justify-content: flex-start;
     align-items: flex-start;
+    padding: 10px;
     gap: 30px;
     width: 70%;
 }
@@ -228,12 +229,12 @@ main {
 }
 
 .containerListaProdutos .listaProdutos .card:hover {
-    transform: scale(1.03);
-    box-shadow: 3px 3px 13px 1px rgb(146 146 146);
+    transform: scale(1.01);
+    box-shadow: 1px 1px 13px 1px rgb(146 146 146);
 }
 
 .containerListaProdutos .listaProdutos .card img {
-    width: 100%;
+    width: 95%;
 }
 
 .containerListaProdutos .listaProdutos .card h3 {
@@ -387,7 +388,7 @@ main {
 
 .cardCarrinho-left img {
     border-radius: 8px;
-    width: auto;
+    width: 85px;
     height: 70px;
 }
 
