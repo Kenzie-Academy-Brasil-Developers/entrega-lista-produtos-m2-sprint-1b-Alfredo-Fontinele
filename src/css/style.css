@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap');
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,22 +7,25 @@
     border: 0;
     outline: 0;
     text-decoration: none;
-    list-style: none;
     font-family: "Poppins", sans-serif;
-}
-
-::-webkit-scrollbar {
-    background-color: #fff;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: #12b886;
-    border-radius: 10px;
 }
 
 body {
     background-color: rgb(20,30,40);
     height: 100vh;
+}
+
+body::-webkit-scrollbar {
+    background-color: #fff;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #12b886;
+}
+
+.container {
+    max-width: 1500px;
+    margin: auto;
 }
 
 /* CABEÇALHO */
@@ -54,8 +59,7 @@ header {
 /* MAIN - PARTE PRINCIPAL */
 
 main {
-    margin: 0 70px;
-    padding: 0 0 70px 0;
+    padding: 0 20px;
 }
 
 /* FILTROS */
@@ -67,8 +71,9 @@ main {
     padding: 30px 0;
 }
 
-#botoesContainer {
-    display: flex;
+#botoesContainer {   
+    width: 100%;
+    min-width: 300px;
 }
 
 .estiloGeralBotoes {
@@ -87,11 +92,6 @@ main {
     background-color: #12b886;
     color: #ffffff;
     transition: ease-in-out 0.2s;
-}
-
-.botoesClickStyle {
-    background-color: #12b886;
-    color: #ffffff;
 }
 
 .containerBuscaPorNome {
@@ -193,10 +193,10 @@ main {
 /*CONTAINER VITRINE*/
 
 .containerVitrine {
+    margin-top: 40px;
     display: flex;
     width: 100%;
     justify-content: space-evenly;
-    border-radius: 50px 0;
 }
 
 /* CONTAINER DE PRODUTOS */
@@ -204,53 +204,53 @@ main {
 .containerListaProdutos {
     width: 100%;
     display: flex;
-    justify-content: center;
+    gap: 30px;
 }
 
-.containerListaProdutos ul {
+.containerListaProdutos .listaProdutos {
+    min-height: 500px;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
+    overflow-x: auto;
     justify-content: flex-start;
-    align-items: center;
-    margin-top: 40px;
-    gap: 50px;   
-    width: 90%;
+    align-items: flex-start;
+    gap: 30px;
+    width: 70%;
 }
 
-.containerListaProdutos ul li {
+.containerListaProdutos .listaProdutos .card {
     border-radius: 8px;
     transition: ease-in-out 0.1s;
-    width: 100%;
-    max-width: 25%;
-    padding: 10px;   
+    min-width: 180px;
+    padding: 10px 0 30px 10px;
     transition: all 0.5s;
 }
 
-.containerListaProdutos ul li:hover {
+.containerListaProdutos .listaProdutos .card:hover {
     transform: scale(1.03);
     box-shadow: 3px 3px 13px 1px rgb(146 146 146);
 }
 
-.containerListaProdutos ul li img {
+.containerListaProdutos .listaProdutos .card img {
     width: 100%;
 }
 
-.containerListaProdutos ul li h3 {
+.containerListaProdutos .listaProdutos .card h3 {
     font-size: 1rem;
     font-weight: 500;
     margin: 10px 0 15px;
     color: #fff;
 }
 
-.containerListaProdutos ul li p {
+.containerListaProdutos .listaProdutos .card p {
     font-size: 0.7rem;
     color: #fff;
     font-weight: 400;
     margin: 10px 0;
 }
 
-.containerListaProdutos ul li span {
+.containerListaProdutos .listaProdutos .card span {
     font-size: 0.8rem;
     font-weight: 500;
     margin-top: 10px;
@@ -258,36 +258,240 @@ main {
     color: #fff;
 }
 
-.containerListaProdutos ul li ol {
+.containerListaProdutos .listaProdutos .card ol {
+    height: 140px;
     list-style: decimal;
     color: #fff;
     font-weight: bold;
     font-size: 12px;
     margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.containerListaProdutos ul li ol li {
-    margin: 0;
-    width: 100%;
+.containerListaProdutos .listaProdutos .card ol .nutriente {
+    padding: 5px 0;
+    min-width: 200px;
 }
 
-.containerListaProdutos ul li button {
+.containerListaProdutos .listaProdutos .card button {
     background-color: #12b8860d;
     border-radius: 8px;
     border: #12b8860d 1px solid;
     color: #12b886;
     padding: 5px;
     transition: 0.5s;
+    cursor: pointer;
 }
 
-.containerListaProdutos ul li button:hover {
+.containerListaProdutos .listaProdutos .card button:hover {
+    transform: scale(1.02);
     background-color: #12b886;
     border: #12b886 1px solid;
     color: white;
 }
 
-.containerListaProdutos ul li div {
+.containerListaProdutos .listaProdutos .card div {
     display: flex;
     justify-content: space-between;
     padding: 5px;
+}
+
+/* CONTAINER CARRINHO DE COMPRAS */
+
+.section-carrinhoCompras {
+    height: 100%;
+    max-height: 400px;
+    width: 30%;
+}
+
+.carrinhoCompras {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.carrinhoCompras::-webkit-scrollbar {
+    background-color: #fff;
+}
+
+.carrinhoCompras::-webkit-scrollbar-thumb {
+    background-color: #1a60e2;
+}
+
+.carrinhoCompras-top {
+    background-color: #1a60e2;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 60px;
+    padding-left: 20px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+
+.carrinhoCompras-top img {
+    height: 20px;
+    width: auto;
+}
+
+.carrinhoCompras-top h1 {
+    font-size: 18px;
+    color: #fff;
+}
+
+.carrinho-vazio {
+    height: 100%;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    text-align: center;
+}
+
+.carrinho-vazio #img-SacolaCompras {
+    filter: brightness(100);
+}
+
+.carrinho-vazio #p-NenhumProduto {
+    color: #fff;
+}
+
+/* Cards Carrinho */
+
+.cardCarrinho {
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    padding: 13px;
+    margin: 26px 20px;
+    transition: all 0.5s;
+}
+
+.cardCarrinho:hover {
+    transform: scale(1.02);
+    box-shadow: 3px 3px 13px 1px rgb(146 146 146);
+}
+
+.cardCarrinho-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cardCarrinho-left img {
+    border-radius: 8px;
+    width: 70px;
+    height: 70px;
+}
+
+.cardCarrinhoInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #fff;
+}
+
+.cardCarrinhoInfo h3 {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.cardCarrinhoInfo span {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.cardCarrinhoInfo p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.cardCarrinho-right img {
+    height: 15px;
+    width: auto;
+    filter: brightness(100);
+    cursor: pointer;
+}
+
+.cardCarrinho-right img:hover {
+    filter: invert(31%) sepia(93%) saturate(6805%) hue-rotate(354deg) brightness(101%) contrast(124%);
+}
+
+/* TOTAL COMPRA */
+
+.total-compra {
+    background-color: #242424;
+    height: 126px;
+    padding: 30px;
+    display: none;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.quantidade,
+.total {
+    color: #fff;
+    font-weight: 600;    
+    display: flex;
+    justify-content: space-between;
+}
+
+/* MOBILE FIRST */
+
+@media only screen and (max-width: 1024px) {
+
+    .priceContainer {
+        display: none;
+    }
+ 
+    .filtersContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    #botoesContainer {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 20px;
+    }
+
+    #botoesContainer button {
+        min-width: 170px;
+    }
+
+    .containerListaProdutos {
+        flex-direction: column;
+    }
+
+    .containerListaProdutos .listaProdutos {
+        min-height: 300px;
+        width: 100%;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    .containerListaProdutos .listaProdutos .card {
+        min-width: 250px;
+    }
+
+    .containerListaProdutos .listaProdutos .card ol {
+        display: none;
+    }
+
+    .containerListaProdutos .section-carrinhoCompras {
+        width: 100%;
+        max-width: 500px;
+        margin: 20px auto 50px auto;
+    }
+
+    .carrinho-vazio #p-NenhumProduto {
+        word-wrap: break-word;
+        width: 70%;
+    }
+
 }

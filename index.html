@@ -1,68 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fontawesome.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"/>
-    <link rel="icon" href="https://svgsilh.com/svg/304843.svg">
-    <link rel="stylesheet" href="./src/css/style.css" />
-    <script defer src="src/js/dataProdutos.js"></script>
-    <script defer src="./src/js/script.js"></script>
-    <title>Lista de Produtos</title>
-  </head>
-  <body>
-    <!-- CABEÇALHO -->
-    <header>
-      <div class="header">
-        <img src="https://img1.gratispng.com/20190319/xgw/kisspng-shopping-cart-retail-shopping-bag-hotemall-shopping-cart-svg-png-icon-free-download-5c90859e9b6a86.5918590215529752626366.jpg" alt="logo carrinho">
-        <h1>Shop now</h1>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="https://svgsilh.com/svg/304843.svg">
+  <link rel="stylesheet" href="./src/css/style.css" />
+  <script defer src="src/js/dataProdutos.js"></script>
+  <script defer src="./src/js/script.js"></script>
+  <title>Lista de Produtos</title>
+</head>
+
+<body>
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="header">
+      <img
+        src="https://img1.gratispng.com/20190319/xgw/kisspng-shopping-cart-retail-shopping-bag-hotemall-shopping-cart-svg-png-icon-free-download-5c90859e9b6a86.5918590215529752626366.jpg"
+        alt="logo carrinho">
+      <h1>Shop now</h1>
+    </div>
+  </header>
+  <!-- PARTE PRINCIPAL -->
+  <main class="container">
+    <section class="filtersContainer">
+      <div id="botoesContainer">
+        <button class="estiloGeralBotoes estiloGeralBotoes--filter" id="todos">Todos Produtos
+        </button>
+        <button class="estiloGeralBotoes estiloGeralBotoes--filter" id="hortifruti">Hortifruti
+        </button>
+        <button class="estiloGeralBotoes estiloGeralBotoes--filter" id="panificadora">Panificadora
+        </button>
+        <button class="estiloGeralBotoes estiloGeralBotoes--filter" id="laticinio">Laticínios
+        </button>
       </div>
-    </header>
-    <!-- PARTE PRINCIPAL -->
-    <main>
-      <section class="filtersContainer">
-        <div id="botoesContainer">
-          <button 
-            class="estiloGeralBotoes estiloGeralBotoes--filter"
-            id="todos">Todos Produtos
-          </button>
-          <button
-            class="estiloGeralBotoes estiloGeralBotoes--filter"
-            id="hortifruti">Hortifruti
-          </button>
-          <button
-            class="estiloGeralBotoes estiloGeralBotoes--filter"
-            id="panificadora">Panificadora
-          </button>
-          <button
-            class="estiloGeralBotoes estiloGeralBotoes--filter"
-            id="laticinio">Laticínios
-          </button>
-        </div>
-        <div class="containerBuscaPorNome">
-          <input type="text" placeholder="Pesquisar por" class="campoBuscaPorNome" id="searchInput"/>
-          <button class="estiloGeralBotoes estiloGeralBotoes--botaoBuscaPorNome" id="pesquisar">
-            <img src="./src/img/search.png" alt="lupa" />
-          </button>
-        </div>
-      </section>
-      <section class="priceContainer">
-        <div>
-            <img src="./src/img/alert-circle.png" alt="exclamação de alerta">
-            <p>Valor total dos produtos da sessão selecionada</p>
-        </div>
-        <span id="totalPreco"></span>
-      </section>
-      <!-- CONTAINER DE PRODUTOS -->
-      <section class="containerVitrine">
-        <div class="containerListaProdutos">
-          <ul class="listaProdutos" id="listaProdutos"></ul>
-        </div>
-      </section>
-    </main>
-  </body>
+      <div class="containerBuscaPorNome">
+        <input type="text" placeholder="Pesquisar por" class="campoBuscaPorNome" id="searchInput" />
+        <button class="estiloGeralBotoes estiloGeralBotoes--botaoBuscaPorNome" id="pesquisar">
+          <img src="./src/img/search.png" alt="lupa" />
+        </button>
+      </div>
+    </section>
+    <section class="priceContainer">
+      <div>
+        <img src="./src/img/alert-circle.png" alt="exclamação de alerta">
+        <p>Valor total dos produtos da sessão selecionada</p>
+      </div>
+      <span id="totalPreco"></span>
+    </section>
+    <!-- CONTAINER DE PRODUTOS -->
+    <section class="containerVitrine">
+      <div class="containerListaProdutos">
+        <ul class="listaProdutos" id="listaProdutos"></ul>
+        <section class="section-carrinhoCompras">
+          <div class="carrinhoCompras-top">
+            <img src="./src/figma imgs/carrinho.png" alt="Logo | Carrinho">
+            <h1>Carrinho</h1>
+          </div>
+          <div class="carrinho-vazio" id="carrinho-vazio">
+            <img id="img-SacolaCompras" src="./src/figma imgs/shopping-bag.png" alt="Logo | Sacola de Compras">
+            <p id="p-NenhumProduto">Por enquanto não temos produtos no carrinho</p>
+          </div>
+          <ul class="carrinhoCompras"></ul>
+          <div class="total-compra" id="total-compra">
+            <div class="quantidade">
+              <p>Quantidade</p>
+              <span id="quantidade-total"></span>
+            </div>
+            <div class="total">
+              <p>Total</p>
+              <span id="preco-total"></span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+</body>
+
 </html>
