@@ -188,7 +188,7 @@ const criarCardsCarrinho = (array) => {
                 </div>
             </div>
             <div class="cardCarrinho-right">
-                <img class="remover" src="./src/figma imgs/trash.png" alt="Logo | lixeira">
+                <img class="remover" src="https://img.icons8.com/ios-glyphs/344/trash--v1.png" alt="Logo | lixeira">
             </div>
         `
         listaCompras.append(li)
