@@ -89,50 +89,39 @@ const percorrerLista = (listaProdutos, secao_atual) => {
     lista_produtos.innerHTML = ""
     const texto = searchInput.value.trim().toLowerCase()
     let qtdProdutosEncontrados = 0
-
     let arrAtual = []
-    
-    if (texto == "todos") {
-        secao_atual = texto
-        listarProdutos(PRODUTOS, lista_produtos)
-        qtdProdutosEncontrados = PRODUTOS.length
-    } else {
-        listaProdutos.forEach((produto) => {
-            const secao = produto.secao.toLowerCase()
-            if (texto === secao) {
-                secao_atual = texto
-                arrAtual.push(produto)
-                qtdProdutosEncontrados++
-            }
-        })
-        listarProdutos(arrAtual, lista_produtos)
-    }
-
-    if (secao_atual == "todos") {
-        listaProdutos.forEach((produto) => {
-            const nome = produto.nome.toLowerCase()
+    listaProdutos.forEach((produto) => {
+        const nome = produto.nome.toLowerCase()
+        const secao = produto.secao.toLowerCase()
+        if (secao_atual == "todos") {
             if (nome.includes(texto)) {
                 arrAtual.push(produto)
-                totalPagarPorSecao(arrAtual, secao_atual)
                 lista_produtos.append(criarCardProduto(produto))
                 qtdProdutosEncontrados++
             }
-        })
-    } else {
-        listaProdutos.forEach((produto) => {
-            const secao = produto.secao.toLowerCase()
-            if (secao == texto || secao == secao_atual) {
-                const nome = produto.nome.toLowerCase()
+        }
+        else {
+            if (secao == secao_atual) {
                 if (nome.includes(texto)) {
                     arrAtual.push(produto)
-                    totalPagarPorSecao(arrAtual, secao_atual)
                     lista_produtos.append(criarCardProduto(produto))
                     qtdProdutosEncontrados++
                 }
             }
-        })
-    }
-
+        }
+        if (texto == "todos") {
+            arrAtual.push(produto)
+            lista_produtos.append(criarCardProduto(produto))
+            qtdProdutosEncontrados++
+        } else {
+            if (texto == secao) {
+                arrAtual.push(produto)
+                lista_produtos.append(criarCardProduto(produto))
+                qtdProdutosEncontrados++
+            }
+        }
+    })
+    totalPagarPorSecao(arrAtual, secao_atual)
     if (qtdProdutosEncontrados === 0) {
         lista_produtos.innerHTML = `
             <div id='resultadoPesquisa'>
@@ -143,7 +132,6 @@ const percorrerLista = (listaProdutos, secao_atual) => {
         totalPreco.innerText = `Nenhum produto`
     }
 
-    totalPagarPorSecao(PRODUTOS, secao_atual)
 }
 
 const totalPagarPorSecao = (PRODUTOS, secaoAtual) => {
@@ -158,7 +146,7 @@ const totalPagarPorSecao = (PRODUTOS, secaoAtual) => {
     }
 }
 
-const quantidadeProdutos = array => quantidade_total.innerHTML = array.length
+let carrinhoID = []
 
 const adicionarProduto = event => {
     const localEvento = event.target
@@ -167,33 +155,38 @@ const adicionarProduto = event => {
         PRODUTOS.find(({id, secao, nome, img, preco}) => {
             if (id == idLocalEvento) {
                 const obj = {
+                    qtd: 1,
                     id: id,
                     secao: secao,
                     nome: nome,
                     img: img,
                     preco: preco
                 }
-                produtosCarrinho.push(obj)
-                criarCardsCarrinho(produtosCarrinho)
-                quantidadeProdutos(produtosCarrinho)
-                somarProdutos(produtosCarrinho)
-                if (produtosCarrinho.length >= 1) {
-                    total_compra.style.display = "flex"
-                    carrinho_vazio.style.display = "none"
+                if (!carrinhoID.includes(id)) {
+                    carrinhoID.push(id)
+                    produtosCarrinho.push(obj)
+                    criarCardsCarrinho(produtosCarrinho)
+                    quantidadeProdutos(produtosCarrinho)
+                    somarProdutos(produtosCarrinho)
                 }
             }
         })
+    }
+    if (produtosCarrinho.length >= 1) {
+        total_compra.style.display = "flex"
+        carrinho_vazio.style.display = "none"
     }
 }
 
 const criarCardsCarrinho = (array) => {
     listaCompras.innerHTML = ""
-    array.forEach(({img, nome, secao, preco}, index) => {
+    array.forEach(({id, qtd, img, nome, secao, preco}, index) => {
         const li = document.createElement("li")
-        li.id = index
+        li.id = id
         li.classList.add("cardCarrinho")
         li.innerHTML = `
             <div class="cardCarrinho-left">
+                <p class="quantidadeProdutoCarrinho">${qtd}</p>
                 <img src="${img}" alt="${nome}">
                 <div class="cardCarrinhoInfo">
                     <h3>${nome}</h3>
@@ -202,30 +195,60 @@ const criarCardsCarrinho = (array) => {
                 </div>
             </div>
             <div class="cardCarrinho-right">
-                <img class="remover" src="https://img.icons8.com/ios-glyphs/344/trash--v1.png" alt="Logo | lixeira">
+                <img class="aumentar" src="https://img.icons8.com/ios-glyphs/344/macos-maximize.png" alt="Logo | lixeira">
+                <img class="diminuir" src="https://img.icons8.com/ios-glyphs/344/filled-minus-2-math.png" alt="Logo | lixeira">
             </div>
         `
         listaCompras.append(li)
     })
 }
 
-const removerProduto = (event) => {
+const aumentarQuantidadeProduto = (event) => {
     const localEvento = event.target
+    const li = event.target.closest("li")
     const id = event.target.closest("li").id
-    if (localEvento.classList.contains("remover")) {
-        if (produtosCarrinho.length <= 1) {
-            total_compra.style.display = "none"
-            carrinho_vazio.style.display = "flex"
-        }
-        produtosCarrinho.splice(id, 1)
-        criarCardsCarrinho(produtosCarrinho)
-        quantidadeProdutos(produtosCarrinho)
-        somarProdutos(produtosCarrinho)
+    if (localEvento.classList.contains("aumentar")) {
+        produtosCarrinho.find((produto) => {
+            if (produto.id == id) {
+                produto.qtd++
+                criarCardsCarrinho(produtosCarrinho)
+                quantidadeProdutos(produtosCarrinho)
+                somarProdutos(produtosCarrinho)
+            }
+        })
     }
 }
 
+// if (produtosCarrinho.length > 1) {
+//     total_compra.style.display = "none"
+//     carrinho_vazio.style.display = "flex"
+// }
+
+const diminuirQuantidadeProduto = (event) => {
+    const localEvento = event.target
+    const id = event.target.closest("li").id
+    if (localEvento.classList.contains("diminuir")) {
+        produtosCarrinho.find((produto) => {
+            if (produto.id == id) {
+                if (produto.qtd > 1) {
+                    produto.qtd--
+                }
+                produtosCarrinho.splice(id, 1)
+                criarCardsCarrinho(produtosCarrinho)
+                quantidadeProdutos(produtosCarrinho)
+                somarProdutos(produtosCarrinho)
+            }
+        })
+    }
+}
+
+const quantidadeProdutos = array => {
+    const quantidadeTotal = array.reduce((acc, {qtd}) => acc + qtd, 0)
+    quantidade_total.innerHTML = quantidadeTotal
+}
+
 const somarProdutos = array => {
-    const total = array.reduce((acc, {preco}) => acc + preco, 0)
+    const total = array.reduce((acc, {preco, qtd}) => acc += preco * qtd, 0)
     preco_total.innerHTML = `R$ ${total.toFixed(2)}`.replace(",", ".")
 }
 
@@ -240,7 +263,9 @@ panificadora.addEventListener("click", filtrarCategoria)
 laticinio.addEventListener("click", filtrarCategoria)
 
 listaProdutos.addEventListener("click", adicionarProduto)
-listaCompras.addEventListener("click", removerProduto)
+
+listaCompras.addEventListener("click", aumentarQuantidadeProduto)
+listaCompras.addEventListener("click", diminuirQuantidadeProduto)
 
 totalPagarPorSecao(PRODUTOS, secao_atual)
 listarProdutos(PRODUTOS, lista_produtos)

@@ -41,19 +41,45 @@ header {
 }
 
 .header {
+    width: 100%;
+    max-width: 1500px;
+    padding: 0 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
 }
 
-.header img {
+.header-left,
+.header-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-left img {
     width: 45px;
     height: 45px;
 }
 
-.header h1 {
+.header-left h1 {
     font-size: 25px;
+}
+
+
+.header-right .menu-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.header-right .menu-mobile div {
+    background-color: #1a60e2;
+    border-radius: 8px;
+    width: 50px;
+    height: 5px;
 }
 
 /* MAIN - PARTE PRINCIPAL */
@@ -234,7 +260,7 @@ main {
 }
 
 .containerListaProdutos .listaProdutos .card img {
-    width: 95%;
+    width: 96.5%;
 }
 
 .containerListaProdutos .listaProdutos .card h3 {
@@ -371,7 +397,7 @@ main {
     display: flex;
     justify-content: space-between;
     padding: 13px;
-    margin: 26px 20px;
+    margin: 26px 5px;
     transition: all 0.5s;
 }
 
@@ -383,7 +409,13 @@ main {
 .cardCarrinho-left {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
+}
+
+.cardCarrinho-left .quantidadeProdutoCarrinho {
+    border-radius: 50%;
+    padding: 1px 10px;
+    color: #fff;
 }
 
 .cardCarrinho-left img {
@@ -414,15 +446,31 @@ main {
     font-weight: 400;
 }
 
-.cardCarrinho-right .remover {
-    filter: invert(99%) sepia(30%) saturate(2%) hue-rotate(85deg) brightness(111%) contrast(100%);
+.cardCarrinho-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.cardCarrinho-right .aumentar {
+    filter: invert(62%) sepia(96%) saturate(3915%) hue-rotate(87deg) brightness(125%) contrast(119%);
     height: 25px;
     width: auto;
     cursor: pointer;
 }
 
-.cardCarrinho-right .remover:hover {
+.cardCarrinho-right .diminuir {
     filter: invert(16%) sepia(90%) saturate(5464%) hue-rotate(353deg) brightness(101%) contrast(122%);
+    height: 25px;
+    width: auto;
+    cursor: pointer;
+}
+
+.cardCarrinho-right .aumentar:hover,
+.cardCarrinho-right .diminuir:hover {
+    transform: scale(1.03);
 }
 
 /* TOTAL COMPRA */
