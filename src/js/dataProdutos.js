@@ -2,7 +2,7 @@ const PRODUTOS = [
     {
         id: 1,
         nome: 'Banana',
-        preco: 2.00,
+        preco: "2.00",
         secao: 'Hortifruti',
         categoria: 'fruta',
         img: "./src/img/banana.png",
@@ -18,7 +18,7 @@ const PRODUTOS = [
     {
         id: 2,
         nome: 'Morango',
-        preco: 2.00,
+        preco: "2.00",
         secao: 'Hortifruti',
         categoria: 'fruta',
         img: './src/img/morango.png',
@@ -34,7 +34,7 @@ const PRODUTOS = [
     {
         id: 3,
         nome: 'Maçã',
-        preco: 2.00,
+        preco: "2.00",
         secao: 'Hortifruti',
         categoria: 'fruta',
         img: './src/img/maça.png',
@@ -50,7 +50,7 @@ const PRODUTOS = [
     {
         id: 4,
         nome: 'Pão',
-        preco: 4.00,
+        preco: "4.00",
         secao: 'Panificadora',
         categoria: 'Pães',
         img: './src/img/pao.png',
@@ -66,7 +66,7 @@ const PRODUTOS = [
     {
         id: 5,
         nome: 'Leite',
-        preco: 5.00,
+        preco: "5.00",
         secao: 'Laticinio',
         categoria: 'Leite',
         img: './src/img/leite.png',

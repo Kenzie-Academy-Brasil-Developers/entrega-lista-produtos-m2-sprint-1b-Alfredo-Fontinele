@@ -17,6 +17,7 @@ const preco_total = document.getElementById("preco-total")
 const quantidade_total = document.getElementById("quantidade-total")
 
 let produtosCarrinho = []
+let listaCarrinhoID = []
 
 const listarProdutos = (listaProdutos, secao) => {
     listaProdutos.forEach((produto) => {
@@ -49,7 +50,7 @@ const criarCardProduto = (produto) => {
     })
 
     const div = document.createElement("div")
-    p.innerText = `R$ ${preco.toFixed(2)}`
+    p.innerText = `R$ ${Number(preco).toFixed(2)}`
     button.id = id
     button.innerText = "Comprar"
 
@@ -131,22 +132,19 @@ const percorrerLista = (listaProdutos, secao_atual) => {
         `
         totalPreco.innerText = `Nenhum produto`
     }
-
 }
 
 const totalPagarPorSecao = (PRODUTOS, secaoAtual) => {
     if (secaoAtual == "todos") {
-        const total = PRODUTOS.reduce((acc, {preco}) => acc + preco, 0)
+        const total = PRODUTOS.reduce((acc, {preco}) => acc + Number(preco), 0)
         totalPreco.innerText = `R$ ${total.toFixed(2)}`
     } else {
         const secao = PRODUTOS
             .filter(({secao}) => secao.toLowerCase() == secaoAtual)
-            .reduce((acc, {preco}) => acc + preco, 0)
+            .reduce((acc, {preco}) => acc + Number(preco), 0)
         totalPreco.innerText = `R$ ${secao.toFixed(2)}`
     }
 }
-
-let carrinhoID = []
 
 const adicionarProduto = event => {
     const localEvento = event.target
@@ -160,10 +158,10 @@ const adicionarProduto = event => {
                     secao: secao,
                     nome: nome,
                     img: img,
-                    preco: preco
+                    preco: Number(preco)
                 }
-                if (!carrinhoID.includes(id)) {
-                    carrinhoID.push(id)
+                if (!listaCarrinhoID.includes(id)) {
+                    listaCarrinhoID.push(id)
                     produtosCarrinho.push(obj)
                     criarCardsCarrinho(produtosCarrinho)
                     quantidadeProdutos(produtosCarrinho)
@@ -180,7 +178,7 @@ const adicionarProduto = event => {
 
 const criarCardsCarrinho = (array) => {
     listaCompras.innerHTML = ""
-    array.forEach(({id, qtd, img, nome, secao, preco}, index) => {
+    array.forEach(({id, qtd, img, nome, secao, preco}) => {
         const li = document.createElement("li")
         li.id = id
         li.classList.add("cardCarrinho")
@@ -191,7 +189,7 @@ const criarCardsCarrinho = (array) => {
                 <div class="cardCarrinhoInfo">
                     <h3>${nome}</h3>
                     <span>${secao}</span>
-                    <p>R$ ${preco.toFixed(2)}</p>
+                    <p>R$ ${Number(preco).toFixed(2)}</p>
                 </div>
             </div>
             <div class="cardCarrinho-right">
@@ -219,26 +217,27 @@ const aumentarQuantidadeProduto = (event) => {
     }
 }
 
-// if (produtosCarrinho.length > 1) {
-//     total_compra.style.display = "none"
-//     carrinho_vazio.style.display = "flex"
-// }
-
 const diminuirQuantidadeProduto = (event) => {
     const localEvento = event.target
-    const id = event.target.closest("li").id
+    const li = localEvento.closest("li")
+    const localEventoId = event.target.closest("li").id
     if (localEvento.classList.contains("diminuir")) {
-        produtosCarrinho.find((produto) => {
-            if (produto.id == id) {
-                if (produto.qtd > 1) {
-                    produto.qtd--
-                }
-                produtosCarrinho.splice(id, 1)
-                criarCardsCarrinho(produtosCarrinho)
-                quantidadeProdutos(produtosCarrinho)
-                somarProdutos(produtosCarrinho)
-            }
-        })
+        const indice = produtosCarrinho.findIndex((produto) => produto.id == localEventoId)
+        const produto = produtosCarrinho[indice]
+        if (produto.qtd == 1 && produtosCarrinho.length == 1) {
+            produtosCarrinho = []
+            listaCarrinhoID = []
+            total_compra.style.display = "none"
+            carrinho_vazio.style.display = "flex"
+        } else if (produto.qtd == 1) {
+            produtosCarrinho.splice(indice, 1)
+            listaCarrinhoID.splice(indice, 1)
+        } else if (produto.qtd > 1) {
+            produto.qtd--
+        }
+        criarCardsCarrinho(produtosCarrinho)
+        quantidadeProdutos(produtosCarrinho)
+        somarProdutos(produtosCarrinho)
     }
 }
 
@@ -248,7 +247,7 @@ const quantidadeProdutos = array => {
 }
 
 const somarProdutos = array => {
-    const total = array.reduce((acc, {preco, qtd}) => acc += preco * qtd, 0)
+    const total = array.reduce((acc, {preco, qtd}) => acc += Number(preco) * qtd, 0)
     preco_total.innerHTML = `R$ ${total.toFixed(2)}`.replace(",", ".")
 }
 

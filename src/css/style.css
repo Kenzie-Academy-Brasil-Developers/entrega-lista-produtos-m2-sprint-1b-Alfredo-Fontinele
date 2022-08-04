@@ -524,7 +524,6 @@ main {
         min-height: 350px;
         width: 100%;
         flex-wrap: nowrap;
-        overflow-x: auto;
     }
 
     .containerListaProdutos .listaProdutos .card {
