@@ -43,49 +43,25 @@ header {
 .header {
     width: 100%;
     max-width: 1500px;
-    padding: 0 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     gap: 20px;
 }
 
-.header-left,
-.header-right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.header img {
+    width: 40px;
+    height: 40px;
 }
 
-.header-left img {
-    width: 45px;
-    height: 45px;
-}
-
-.header-left h1 {
-    font-size: 25px;
-}
-
-
-.header-right .menu-mobile {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-}
-
-.header-right .menu-mobile div {
-    background-color: #1a60e2;
-    border-radius: 8px;
-    width: 50px;
-    height: 5px;
+.header h1 {
+    font-size: 1.7em;
 }
 
 /* MAIN - PARTE PRINCIPAL */
 
 main {
-    padding: 0 20px;
+    padding: 0 20px 200px 20px;
 }
 
 /* FILTROS */
@@ -97,9 +73,11 @@ main {
     padding: 30px 0;
 }
 
-#botoesContainer {   
+#botoesContainer {
     width: 100%;
     min-width: 300px;
+    display: flex;
+    gap: 20px;
 }
 
 .estiloGeralBotoes {
@@ -111,7 +89,6 @@ main {
     font-weight: 500;
     color: #12b886;
     font-size: 0.9rem;
-    margin-right: 10px;
 }
 
 .estiloGeralBotoes--filter:hover {
@@ -256,7 +233,11 @@ main {
 
 .containerListaProdutos .listaProdutos .card:hover {
     transform: scale(1.01);
-    box-shadow: 1px 1px 13px 1px rgb(146 146 146);
+    box-shadow: 3px 3px 13px 1px #12f05c;
+}
+
+.containerListaProdutos .listaProdutos .card:hover * {
+    color: #1aeb71;
 }
 
 .containerListaProdutos .listaProdutos .card img {
@@ -403,7 +384,7 @@ main {
 
 .cardCarrinho:hover {
     transform: scale(1.02);
-    box-shadow: 3px 3px 13px 1px rgb(146 146 146);
+    box-shadow: 3px 3px 13px 1px #1a60e2;
 }
 
 .cardCarrinho-left {
@@ -476,7 +457,9 @@ main {
 /* TOTAL COMPRA */
 
 .total-compra {
-    background-color: #242424;
+    background-color: #1a60e2;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     height: 126px;
     padding: 30px;
     display: none;
