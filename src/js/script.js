@@ -24,6 +24,9 @@ const quantidade_total = document.getElementById("quantidade-total")
 let produtosCarrinho = []
 let listaCarrinhoID = []
 
+let qtdProdutosEncontrados = 0
+let arrAtual = []
+
 const listarProdutos = (listaProdutos, secao) => {
     listaProdutos.forEach((produto) => {
         const templateProduto = criarCardProduto(produto)
@@ -55,6 +58,7 @@ const criarCardProduto = (produto) => {
     })
 
     const div = document.createElement("div")
+
     p.innerText = `R$ ${Number(preco).toFixed(2)}`
     button.id = id
     button.innerText = "Comprar"
@@ -94,41 +98,18 @@ const filtrarCategoria = (event) => {
 const percorrerLista = (listaProdutos, secao_atual) => {
     lista_produtos.innerHTML = ""
     const texto = searchInput.value.trim().toLowerCase()
-    let qtdProdutosEncontrados = 0
-    let arrAtual = []
     listaProdutos.forEach((produto) => {
         const nome = produto.nome.toLowerCase()
         const secao = produto.secao.toLowerCase()
         if (secao_atual == "todos") {
-            if (nome.includes(texto)) {
-                arrAtual.push(produto)
-                lista_produtos.append(criarCardProduto(produto))
-                qtdProdutosEncontrados++
-            }
+            verificarTexto(arrAtual, produto, nome, texto)
+        } else if (secao == secao_atual) {
+            verificarTexto(arrAtual, produto, nome, texto)
         }
-        else {
-            if (secao == secao_atual) {
-                if (nome.includes(texto)) {
-                    arrAtual.push(produto)
-                    lista_produtos.append(criarCardProduto(produto))
-                    qtdProdutosEncontrados++
-                }
-            }
-        }
-        if (texto == "todos") {
-            arrAtual.push(produto)
-            lista_produtos.append(criarCardProduto(produto))
-            qtdProdutosEncontrados++
-        } else {
-            if (texto == secao) {
-                arrAtual.push(produto)
-                lista_produtos.append(criarCardProduto(produto))
-                qtdProdutosEncontrados++
-            }
-        }
+        verificarSecao(arrAtual, produto, texto, secao)
+        totalPagarPorSecao(arrAtual, secao_atual)
     })
-    totalPagarPorSecao(arrAtual, secao_atual)
-    if (qtdProdutosEncontrados === 0) {
+    if (qtdProdutosEncontrados == 0) {
         lista_produtos.innerHTML = `
             <div id='resultadoPesquisa'>
                 <h1>Nenhum Produto Encontrado</h1>
@@ -136,6 +117,42 @@ const percorrerLista = (listaProdutos, secao_atual) => {
             </div>
         `
         totalPreco.innerText = `Nenhum produto`
+    }
+    arrAtual = []
+    qtdProdutosEncontrados = 0
+}
+
+const verificarQuantidadeProdutos = (qtdProdutosEncontrados) => {
+    if (qtdProdutosEncontrados == 0) {
+        lista_produtos.innerHTML = `
+            <div id='resultadoPesquisa'>
+                <h1>Nenhum Produto Encontrado</h1>
+                <img src="https://sambatech.com/wp-content/uploads/2019/07/animac%CC%A7a%CC%83o-erro404_3-1.gif" alt="Gif">
+            </div>
+        `
+        totalPreco.innerText = `Nenhum produto`
+    }
+}
+
+const verificarTexto = (array, produto, nome, texto) => {
+    if (nome.includes(texto)) {
+        array.push(produto)
+        lista_produtos.append(criarCardProduto(produto))
+        qtdProdutosEncontrados++
+    }
+}
+
+const verificarSecao = (array, produto, texto, secao) => {
+    if (texto == "todos") {
+        array.push(produto)
+        lista_produtos.append(criarCardProduto(produto))
+        qtdProdutosEncontrados++
+    } else {
+        if (texto == secao) {
+            array.push(produto)
+            lista_produtos.append(criarCardProduto(produto))
+            qtdProdutosEncontrados++
+        }
     }
 }
 
@@ -260,15 +277,26 @@ const renderizarModal = () => {
         align-items: center;
     `
     div.classList.add("modal")
-    div.innerHTML = `
-        <div class="modal-top">
-            <h1>Você realmente quer limpar tudo?</h1>
-        <div>
-        <div class="modal-bottom">
-            <img class="alterar-tarefa" id="img-alterar-tarefa" src="https://cdn-icons-png.flaticon.com/512/25/25179.png" alt="img | manter tarefa">
-            <img class="manter-tarefa" id="img-manter-tarefa" src="https://todo-list-plum-one.vercel.app/src/imgs/alterar_tarefa.svg" alt="img | alterar tarefa">
-        </div>
-    `
+    if (produtosCarrinho.length !== 0) {
+        div.innerHTML = `
+            <div class="modal-top">
+                <h1>Você realmente quer limpar tudo?</h1>
+            <div>
+            <div class="modal-bottom">
+                <img class="alterar-tarefa" id="img-alterar-tarefa" src="https://cdn-icons-png.flaticon.com/512/25/25179.png" alt="img | manter tarefa">
+                <img class="manter-tarefa" id="img-manter-tarefa" src="https://todo-list-plum-one.vercel.app/src/imgs/alterar_tarefa.svg" alt="img | alterar tarefa">
+            </div>
+        `
+    } else {
+        div.innerHTML = `
+            <div class="modal-top">
+                <h1>A Lista de Compras está vazia</h1>
+            <div>
+            <div class="modal-bottom">
+                <img class="manter-tarefa" id="img-manter-tarefa" src="https://todo-list-plum-one.vercel.app/src/imgs/alterar_tarefa.svg" alt="img | alterar tarefa">
+            </div>
+        `
+    }
     section.appendChild(div)
     body.append(section)
     section.addEventListener("click", (event) => {
