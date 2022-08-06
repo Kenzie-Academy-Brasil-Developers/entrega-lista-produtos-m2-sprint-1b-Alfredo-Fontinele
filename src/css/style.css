@@ -227,7 +227,8 @@ main {
     border-radius: 8px;
     transition: ease-in-out 0.1s;
     min-width: 180px;
-    padding: 10px 0 30px 10px;
+    padding: 10px;
+    box-shadow: 3px 3px 7px 1px #515252;
     transition: all 0.5s;
 }
 
@@ -241,7 +242,7 @@ main {
 }
 
 .containerListaProdutos .listaProdutos .card img {
-    width: 96.5%;
+    width: 100%;
 }
 
 .containerListaProdutos .listaProdutos .card h3 {
@@ -332,22 +333,89 @@ main {
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     height: 60px;
-    padding-left: 20px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     gap: 20px;
+    padding: 0 10px;
 }
 
-.carrinhoCompras-top img {
+.carrinhoCompras-top--left,
+.carrinhoCompras-top--right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carrinhoCompras-top--left img {
     filter: invert(99%) sepia(30%) saturate(2%) hue-rotate(85deg) brightness(111%) contrast(100%);
     height: 25px;
     width: auto;
+    margin-right: 10px;
 }
 
-.carrinhoCompras-top h1 {
+.carrinhoCompras-top--left h1 {
     font-size: 18px;
     color: #fff;
+}
+
+.carrinhoCompras-top--right .removerTudo {
+    filter: invert(99%) sepia(30%) saturate(2%) hue-rotate(85deg) brightness(111%) contrast(100%);
+    height: 25px;
+    width: auto;
+    cursor: pointer;
+}
+
+.carrinhoCompras-top--right .removerTudo:hover {
+    transform: scale(1.02);
+    filter: invert(16%) sepia(90%) saturate(5464%) hue-rotate(353deg) brightness(101%) contrast(122%);
+}
+
+/* MODAL */
+
+.modal {
+    background-color: #1a60e2;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 550px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+}
+
+.modal-top h1 {
+    font-size: 24px;
+    width: 90%;
+    margin: auto;
+    text-align: center;
+    color: #fff;
+}
+
+.modal-bottom {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.modal-bottom img {
+    widtH: 45px;
+    height: 45px;
+    cursor: pointer;
+}
+
+.modal-bottom img:hover {
+    transform: scale(1.03);
+}
+
+.modal-bottom .alterar-tarefa {
+    filter: invert(57%) sepia(92%) saturate(2796%) hue-rotate(82deg) brightness(121%) contrast(131%);
+}
+
+.modal-bottom .manter-tarefa {
+    filter: invert(9%) sepia(77%) saturate(7205%) hue-rotate(359deg) brightness(131%) contrast(107%);
 }
 
 .carrinho-vazio {

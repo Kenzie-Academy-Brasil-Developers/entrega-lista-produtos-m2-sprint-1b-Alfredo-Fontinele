@@ -1,3 +1,8 @@
+const body = document.querySelector("body")
+const alterarTarefa = document.getElementById("alterar-tarefa")
+const manterTarefa = document.getElementById("manter-tarefa")
+const removerTudo = document.getElementById("removerTudo")
+
 const lista_produtos = document.getElementById("listaProdutos")
 lista_produtos.classList.add("listaProdutos")
 
@@ -203,8 +208,7 @@ const criarCardsCarrinho = (array) => {
 
 const aumentarQuantidadeProduto = (event) => {
     const localEvento = event.target
-    const li = event.target.closest("li")
-    const id = event.target.closest("li").id
+    const id = localEvento.closest("li").id
     if (localEvento.classList.contains("aumentar")) {
         produtosCarrinho.find((produto) => {
             if (produto.id == id) {
@@ -241,6 +245,49 @@ const diminuirQuantidadeProduto = (event) => {
     }
 }
 
+const renderizarModal = () => {
+    const section = document.createElement("section")
+    const div = document.createElement("div")
+    section.style = `
+        background-color: rgba(20,30,40,0.9);
+        position: fixed;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `
+    div.classList.add("modal")
+    div.innerHTML = `
+        <div class="modal-top">
+            <h1>Você realmente quer limpar tudo?</h1>
+        <div>
+        <div class="modal-bottom">
+            <img class="alterar-tarefa" id="img-alterar-tarefa" src="https://cdn-icons-png.flaticon.com/512/25/25179.png" alt="img | manter tarefa">
+            <img class="manter-tarefa" id="img-manter-tarefa" src="https://todo-list-plum-one.vercel.app/src/imgs/alterar_tarefa.svg" alt="img | alterar tarefa">
+        </div>
+    `
+    section.appendChild(div)
+    body.append(section)
+    section.addEventListener("click", (event) => {
+        const localEvento = event.target
+        if (localEvento.classList.contains("alterar-tarefa")) {
+            produtosCarrinho = []
+            listaCarrinhoID = []
+            criarCardsCarrinho(produtosCarrinho)
+            quantidadeProdutos(produtosCarrinho)
+            somarProdutos(produtosCarrinho)
+            total_compra.style.display = "none"
+            carrinho_vazio.style.display = "flex"
+            section.style.display = "none"
+        } else if (localEvento.classList.contains("manter-tarefa")) {
+            section.style.display = "none"
+        }
+    })
+}
+
 const quantidadeProdutos = array => {
     const quantidadeTotal = array.reduce((acc, {qtd}) => acc + qtd, 0)
     quantidade_total.innerHTML = quantidadeTotal
@@ -254,6 +301,8 @@ const somarProdutos = array => {
 const pesquisaPorProduto = () => {
     percorrerLista(PRODUTOS, secao_atual)
 }
+
+removerTudo.addEventListener("click", renderizarModal)
 
 pesquisar.addEventListener("click", pesquisaPorProduto)
 todos.addEventListener("click", filtrarCategoria)
