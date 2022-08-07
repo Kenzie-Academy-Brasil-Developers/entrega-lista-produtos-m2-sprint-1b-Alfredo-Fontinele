@@ -37,6 +37,7 @@ const listarProdutos = (listaProdutos, secao) => {
 const criarCardProduto = (produto) => {
     const li = document.createElement("li")
     li.classList.add("card")
+    
     const imagem = document.createElement("img")
     const h3 = document.createElement("h3")
     const span = document.createElement("span")
@@ -101,12 +102,7 @@ const percorrerLista = (listaProdutos, secao_atual) => {
     listaProdutos.forEach((produto) => {
         const nome = produto.nome.toLowerCase()
         const secao = produto.secao.toLowerCase()
-        if (secao_atual == "todos") {
-            verificarTexto(arrAtual, produto, nome, texto)
-        } else if (secao == secao_atual) {
-            verificarTexto(arrAtual, produto, nome, texto)
-        }
-        verificarSecao(arrAtual, produto, texto, secao)
+        verificarTextoSecao(arrAtual, produto, texto, nome, secao)
         totalPagarPorSecao(arrAtual, secao_atual)
     })
     if (qtdProdutosEncontrados == 0) {
@@ -134,25 +130,18 @@ const verificarQuantidadeProdutos = (qtdProdutosEncontrados) => {
     }
 }
 
-const verificarTexto = (array, produto, nome, texto) => {
-    if (nome.includes(texto)) {
+const verificarTextoSecao = (array, produto, texto, nome, secao) => {
+    if (texto == "todos" || secao.includes(texto)) {
         array.push(produto)
         lista_produtos.append(criarCardProduto(produto))
         qtdProdutosEncontrados++
     }
-}
-
-const verificarSecao = (array, produto, texto, secao) => {
-    if (texto == "todos") {
-        array.push(produto)
-        lista_produtos.append(criarCardProduto(produto))
-        qtdProdutosEncontrados++
-    } else {
-        if (texto == secao) {
+    else if (secao_atual == "todos" || secao.includes(secao_atual)) {
+        if (nome.includes(texto)) {
             array.push(produto)
             lista_produtos.append(criarCardProduto(produto))
             qtdProdutosEncontrados++
-        }
+        }   
     }
 }
 
